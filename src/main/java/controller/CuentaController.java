@@ -34,14 +34,6 @@ public class CuentaController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
         response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
         
@@ -52,8 +44,27 @@ public class CuentaController extends HttpServlet {
 		request.setAttribute("cuentas",dao.obtenerTodoCuenta());  
 		
 		RequestDispatcher rd=request.getRequestDispatcher("cuentas/viewAll.jsp");  
-        rd.forward(request, response);  		
+        rd.forward(request, response);  
+	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+       
+			response.setContentType("text/html");  
+	        PrintWriter out=response.getWriter();  
+	        
+	        ConexionDB conexionBD = new ConexionDB();
+	    	Connection conexion = conexionBD.establecerConexion();
+	    	
+			DaoCuenta dao = new DaoCuenta(conexion);
+			request.setAttribute("cuentas",dao.obtenerTodoCuenta());  
+			
+			RequestDispatcher rd=request.getRequestDispatcher("cuentas/viewAll.jsp");  
+	        rd.forward(request, response);  		
+		
 	}
 
 }

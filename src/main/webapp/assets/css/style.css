@@ -1,0 +1,13 @@
+.fondo {
+
+    background-image: url('../img/fondo.png');
+    background-repeat: repeat-x;
+}
+
+.tamanoCardPrincipal{
+   
+}
+
+.navbar-nav>.nav-link:hover{
+    text-decoration: underline !important;
+}

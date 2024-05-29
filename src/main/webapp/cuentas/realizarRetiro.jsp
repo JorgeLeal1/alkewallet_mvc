@@ -1,16 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@page import="model.Cuenta"%>
-<%@page import="java.util.List"%>
-
 <!DOCTYPE html>
 <html>
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wallet - ListaCuenta</title>
+<title>Wallet - Retiro</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -40,12 +37,10 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
-					<a class="nav-link" aria-current="page" href="FormRealizarDeposito">Depositar
-						saldo</a> <a class="nav-link" aria-current="page"
-						href="FormRealizarRetiro">Retirar saldo</a> <a
-						class="nav-link active" aria-current="page" href="viewAllCuentas">Listar
-						Cuentas</a>
-					<a class="nav-link" aria-current="page" href="/alkewallet_mvc/cuentas/nuevaCuentas.jsp">Crear Cuenta</a>								
+					<a class="nav-link" aria-current="page" href="FormRealizarDeposito">Depositar saldo</a> 
+					<a class="nav-link active" aria-current="page" href="FormRealizarRetiro">Retirar saldo</a> 
+					<a class="nav-link" aria-current="page" href="viewAllCuentas">Listar Cuentas</a>
+					<a class="nav-link" aria-current="page" href="/alkewallet_mvc/cuentas/nuevaCuentas.jsp">Crear Cuenta</a>					
 				</div>
 			</div>
 			<span class="navbar-text"> <a style="float: right;"
@@ -64,44 +59,42 @@
 
 			<div class="card m-auto tamanoCardPrincipal">
 				<div class="card-header">
-					<h2 class="text-center">Listado Cuentas</h2>
+					<h2 class="text-center">Retiros de fondos</h2>
 				</div>
 
 				<div class="card-body">
+					<form id="Form_sendmoney" action="RealizarRetiro" method="post">
 
-					<%
-					List<Cuenta> lista = (List) request.getAttribute("cuentas");
-					out.print("Hay un total de " + lista.size() + " cuentas");
-					%>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label fw-bold">Saldo
+								actual:</label>
+							<div class="col-sm-8">
+								<input type="number" class="form-control" id="saldo_actual"
+									name="saldo_actual"
+									value="<%out.print(request.getAttribute("saldo"));%>" readonly>
+							</div>
+						</div>
 
-					<table class="table table-striped table-hover">
-					  <thead class="table-light">
-					  	<tr>
-							<th>ID</th>
-							<th>RUN</th>
-							<th>N° Cuenta</th>
-							<th>Alias</th>
-							<th>Banco</th>
-							<th>Saldo</th>
+						<div class="form-group row">
+							<label for="inputBuscarContacto"
+								class="col-sm-2 col-form-label fw-bold">Saldo a retirar:</label>
+							<div class="col-sm-8">
+								<input type="number" class="form-control" id="saldo" min="1"
+									name="saldo" placeholder="Ingrese saldo" required="required">
+							</div>
+							<div class="col-sm-2">
+								<button type="submit" class="btn btn-primary mb-2"
+									style="float: right;" id="btnBuscar">Retirar deposito</button>
+							</div>
+						</div>
 
-						</tr>
-				  </thead>
-				  <tbody>
-						<%
-						for (int i = 0; i < lista.size(); i++) {
-							out.print("<tr>" + "" + "<td>" + lista.get(i).getId() + "</td>" + "" + "<td>" + lista.get(i).getRun() + "</td>" + ""
-							+ "<td>" + lista.get(i).getNroCuenta() + "</td>" + "" + "<td>" + lista.get(i).getAlias() + "</td>" + ""
-							+ "<td>" + lista.get(i).getBanco() + "</td>" + "" + "<td>" + lista.get(i).getSaldo() + "</td></tr>");
-						}
-						%>
-
-				  </tbody>
-				</table>
+					</form>
 
 				</div>
 				<!-- card body-->
 			</div>
 			<!-- card-->
+
 
 		</div>
 		<!-- container-->

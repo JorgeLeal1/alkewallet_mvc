@@ -6,18 +6,23 @@ public class Usuario {
 	private String nombre;
 	private String correo_electronico;
 	private String contrasena;
+	private Cliente titular;
 	
 	public Usuario() {
 
 	}
 
-	public Usuario(Integer user_id, String nombre, String correo_electronico, String contrasena) {
-		this.id = user_id;
+	public Usuario(String nombre, String correo_electronico, String contrasena, Cliente titular) {
 		this.nombre = nombre;
 		this.correo_electronico = correo_electronico;
 		this.contrasena = contrasena;
+		this.titular = titular;		
 	}
 
+	public String getRun() {
+		return titular.getRun();
+	}
+	
 	public Integer getUser_id() {
 		return id;
 	}

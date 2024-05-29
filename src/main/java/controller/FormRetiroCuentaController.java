@@ -14,20 +14,18 @@ import javax.servlet.http.HttpSession;
 
 import conexion.ConexionDB;
 import dao.DaoCuenta;
-import dao.DaoLogin;
-
 
 /**
  * Servlet implementation class CuentaController
  */
-@WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+@WebServlet("/FormRetiroCuentaController")
+public class FormRetiroCuentaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public FormRetiroCuentaController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,7 +35,25 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("text/html");  
+        PrintWriter out=response.getWriter();  
+        
+        
+        HttpSession misession = request.getSession();
+        String run = (String) misession.getAttribute("run");
+        
+        ConexionDB conexionBD = new ConexionDB();
+    	Connection conexion = conexionBD.establecerConexion();
+    	
+		DaoCuenta dao = new DaoCuenta(conexion);
+		request.setAttribute("saldo",dao.consultarSaldoPorRun(run));  
+		
+		System.out.println(dao.consultarSaldoPorRun(run));
+
+        //request.setAttribute("run",misession.getAttribute("run"));  
+		// se redirige a la pantalla listado
+		RequestDispatcher rd=request.getRequestDispatcher("cuentas/realizarRetiro.jsp");  
+        rd.forward(request, response);  
 	}
 
 	/**
@@ -45,44 +61,26 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getSession().invalidate();
-		
+        
 		response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
         
+        
+        HttpSession misession = request.getSession();
+        String run = (String) misession.getAttribute("run");
+        
         ConexionDB conexionBD = new ConexionDB();
     	Connection conexion = conexionBD.establecerConexion();
-
-    	//convierte los datos de request al formato de la tabla
-    	String run = request.getParameter("run");
-    	String contrasena = request.getParameter("contrasena");
-
     	
-    	//System.out.println(run);//System.out.println(contrasena);
-	
-    	DaoLogin dao = new DaoLogin(conexion);
-    	boolean result = dao.validarLogin(run, contrasena);
-    
-    	//System.out.println(result);
-    	if(result) {
- 
-    		DaoCuenta daoCuenta = new DaoCuenta(conexion);
-    		request.setAttribute("saldo",daoCuenta.consultarSaldoPorRun(run));  
-    		
-    		System.out.println(daoCuenta.consultarSaldoPorRun(run));
+		DaoCuenta dao = new DaoCuenta(conexion);
+		request.setAttribute("saldo",dao.consultarSaldoPorRun(run));  
+		
+		System.out.println(dao.consultarSaldoPorRun(run));
 
-            HttpSession misession = request.getSession(true);
-            misession.setAttribute("run", run);
-    			
-    		RequestDispatcher rd=request.getRequestDispatcher("home");  
-            rd.forward(request, response);  
-           
-    	}else {
-            request.setAttribute("mensaje", new String("Run o Contraseña incorrectos, favor ingrese datos nuevamente!!"));
-    		//Si no esta logeado lo retorna al login
-    		RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
-            rd.forward(request, response);  
-    	}
+        //request.setAttribute("run",misession.getAttribute("run"));  
+		// se redirige a la pantalla listado
+		RequestDispatcher rd=request.getRequestDispatcher("home");  
+        rd.forward(request, response);  
         
 	}
 

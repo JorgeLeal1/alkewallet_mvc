@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import conexion.ConexionDB;
 import dao.DaoCuenta;
+import dao.DaoUsuario;
 import model.Cliente;
 import model.Cuenta;
-import model.Moneda;
-
+import model.Usuario;
 /**
  * Servlet implementation class CuentaController
  */
@@ -63,6 +63,7 @@ public class NuevaCuentaController extends HttpServlet {
     	//public Cliente(String run, String nombre1, String nombre2, String appaterno, String apmaterno) {
     	Cliente cliente = new Cliente(run, nombre1, nombre2, appaterno, apmaterno);
     	
+    	
     	int nroCuenta = Integer.parseInt(request.getParameter("nrocuenta"));
     	String alias = request.getParameter("alias");
     	String banco = request.getParameter("banco");
@@ -75,6 +76,20 @@ public class NuevaCuentaController extends HttpServlet {
     	//Se insertan los datos
 		DaoCuenta dao = new DaoCuenta(conexion);
 		dao.insertarCuenta(cuenta);
+
+		
+		
+    	String nombreUsuario = request.getParameter("nombreUsuario");
+    	String email = request.getParameter("email");    	
+    	String contrasena = request.getParameter("contrasena");
+		
+    	//	public Usuario(Integer user_id, String nombre, String correo_electronico, String contrasena) {
+    	Usuario usuario = new Usuario(nombreUsuario, email,  contrasena, cliente);
+    	
+    	//Se insertan los datos
+		DaoUsuario dao_usuario = new DaoUsuario(conexion);
+		dao_usuario.insertarUsuario(usuario);
+    	
 		
 		request.setAttribute("cuentas",dao.obtenerTodoCuenta());  
 		

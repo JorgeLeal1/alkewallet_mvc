@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import conexion.ConexionDB;
 import dao.DaoCuenta;
-import model.Cuenta;
 
 /**
  * Servlet implementation class CuentaController
@@ -36,7 +35,25 @@ public class FormDepositoCuentaController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("text/html");  
+        PrintWriter out=response.getWriter();  
+        
+        
+        HttpSession misession = request.getSession();
+        String run = (String) misession.getAttribute("run");
+        
+        ConexionDB conexionBD = new ConexionDB();
+    	Connection conexion = conexionBD.establecerConexion();
+    	
+		DaoCuenta dao = new DaoCuenta(conexion);
+		request.setAttribute("saldo",dao.consultarSaldoPorRun(run));  
+		
+		System.out.println(dao.consultarSaldoPorRun(run));
+
+        //request.setAttribute("run",misession.getAttribute("run"));  
+		// se redirige a la pantalla listado
+		RequestDispatcher rd=request.getRequestDispatcher("cuentas/realizarDepositos.jsp");  
+        rd.forward(request, response);  
 	}
 
 	/**

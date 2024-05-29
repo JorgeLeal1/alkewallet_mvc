@@ -22,12 +22,10 @@ public class Cuenta {
 		super();
 		this.nroCuenta = nroCuenta;
 		this.alias = alias;
-		Banco = banco;
+		this.Banco = banco;
 		this.saldo = saldo;
 		this.titular = titular;
 	}
-
-
 	
 	public String getRun() {
 		return titular.getRun();

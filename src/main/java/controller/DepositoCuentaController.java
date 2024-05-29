@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import conexion.ConexionDB;
 import dao.DaoCuenta;
-import model.Cuenta;
 
 /**
  * Servlet implementation class CuentaController
@@ -69,9 +68,9 @@ public class DepositoCuentaController extends HttpServlet {
         System.out.println("saldo"+saldo);
         System.out.println("saldo_nuevo"+saldo_nuevo);
 		
-		dao.actualizarSaldoCuenta(run, saldo_nuevo);  
+		dao.actualizarSaldoCuenta(run, saldo_nuevo);
 		
-		RequestDispatcher rd=request.getRequestDispatcher("viewAllCuentas");  
+		RequestDispatcher rd=request.getRequestDispatcher("/viewAllCuentas");  
         rd.forward(request, response);  
 	}
 
