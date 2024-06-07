@@ -39,18 +39,20 @@ public class HomeController extends HttpServlet {
 		response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
         
+        //Conexion a Base de datos wallet
         ConexionDB conexionBD = new ConexionDB();
     	Connection conexion = conexionBD.establecerConexion();
                 
+        //Obtiene variable de session del run del usuario logeado
         HttpSession misession = request.getSession();
         String run = (String) misession.getAttribute("run");
         
+    	//crea objeto daro cuenta
+    	//Obtiene el saldo actual por el run del usuario logeado
 		DaoCuenta daoCuenta = new DaoCuenta(conexion);
 		request.setAttribute("saldo",daoCuenta.consultarSaldoPorRun(run));  
 		
-		System.out.println(daoCuenta.consultarSaldoPorRun(run));
-
-		
+		//Redirige a home
 		RequestDispatcher rd=request.getRequestDispatcher("home.jsp");  
         rd.forward(request, response);  
 
@@ -64,24 +66,26 @@ public class HomeController extends HttpServlet {
 		// TODO Auto-generated method stub
         
         
+        
 		response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
         
+        //Conexion a Base de datos wallet
         ConexionDB conexionBD = new ConexionDB();
     	Connection conexion = conexionBD.establecerConexion();
                 
+        //Obtiene variable de session del run del usuario logeado
         HttpSession misession = request.getSession();
         String run = (String) misession.getAttribute("run");
         
+    	//crea objeto daro cuenta
+    	//Obtiene el saldo actual por el run del usuario logeado
 		DaoCuenta daoCuenta = new DaoCuenta(conexion);
 		request.setAttribute("saldo",daoCuenta.consultarSaldoPorRun(run));  
 		
-		System.out.println(daoCuenta.consultarSaldoPorRun(run));
-
-		
+		//Redirige a home
 		RequestDispatcher rd=request.getRequestDispatcher("home.jsp");  
         rd.forward(request, response);  
-
         
 	}
 

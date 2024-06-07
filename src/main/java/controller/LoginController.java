@@ -45,6 +45,7 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		// Elimina variable de session
 		request.getSession().invalidate();
 		
 		response.setContentType("text/html");  
@@ -53,33 +54,36 @@ public class LoginController extends HttpServlet {
         ConexionDB conexionBD = new ConexionDB();
     	Connection conexion = conexionBD.establecerConexion();
 
-    	//convierte los datos de request al formato de la tabla
+    	//los parametros del formulario login los traspasa a variables
     	String run = request.getParameter("run");
     	String contrasena = request.getParameter("contrasena");
 
     	
     	//System.out.println(run);//System.out.println(contrasena);
-	
     	DaoLogin dao = new DaoLogin(conexion);
-    	boolean result = dao.validarLogin(run, contrasena);
+    	boolean result = dao.validarLogin(run, contrasena);// valida si el usuario ingresado esta en la BD
     
     	//System.out.println(result);
+    	// Si el resultado es true, El usuarios existe, si el resultado es false, no existe en la BD con esos parametros
     	if(result) {
  
     		DaoCuenta daoCuenta = new DaoCuenta(conexion);
-    		request.setAttribute("saldo",daoCuenta.consultarSaldoPorRun(run));  
-    		
-    		System.out.println(daoCuenta.consultarSaldoPorRun(run));
+    		request.setAttribute("saldo",daoCuenta.consultarSaldoPorRun(run));// Busca el saldo de la cuenta por el Run logeado
+    		//System.out.println(daoCuenta.consultarSaldoPorRun(run));
 
+    		//Crea variable de sesion por run del usuario
             HttpSession misession = request.getSession(true);
             misession.setAttribute("run", run);
     			
+            //Redirecciona a Home
     		RequestDispatcher rd=request.getRequestDispatcher("home");  
             rd.forward(request, response);  
            
     	}else {
+    		//Redirecciona al Index(Login) y envia mensaje con error
             request.setAttribute("mensaje", new String("Run o Contraseña incorrectos, favor ingrese datos nuevamente!!"));
-    		//Si no esta logeado lo retorna al login
+    		
+            //Si no esta logeado lo retorna al login
     		RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
             rd.forward(request, response);  
     	}

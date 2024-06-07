@@ -37,12 +37,17 @@ public class CuentaController extends HttpServlet {
         response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
         
+        //Conexion a BD
         ConexionDB conexionBD = new ConexionDB();
     	Connection conexion = conexionBD.establecerConexion();
     	
+    	//Crea objeto cuenta
 		DaoCuenta dao = new DaoCuenta(conexion);
+		
+		//dao.obtenerTodoCuenta(), obtiene todas las cuentas ordenadas por run cliente
 		request.setAttribute("cuentas",dao.obtenerTodoCuenta());  
 		
+		//redirecciona a vista Viewall
 		RequestDispatcher rd=request.getRequestDispatcher("cuentas/viewAll.jsp");  
         rd.forward(request, response);  
 	}
@@ -52,19 +57,22 @@ public class CuentaController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-       
-			response.setContentType("text/html");  
-	        PrintWriter out=response.getWriter();  
-	        
-	        ConexionDB conexionBD = new ConexionDB();
-	    	Connection conexion = conexionBD.establecerConexion();
-	    	
-			DaoCuenta dao = new DaoCuenta(conexion);
-			request.setAttribute("cuentas",dao.obtenerTodoCuenta());  
-			
-			RequestDispatcher rd=request.getRequestDispatcher("cuentas/viewAll.jsp");  
-	        rd.forward(request, response);  		
+        response.setContentType("text/html");  
+        PrintWriter out=response.getWriter();  
+        
+        //Conexion a BD
+        ConexionDB conexionBD = new ConexionDB();
+    	Connection conexion = conexionBD.establecerConexion();
+    	
+    	//Crea objeto cuenta
+		DaoCuenta dao = new DaoCuenta(conexion);
 		
+		//dao.obtenerTodoCuenta(), obtiene todas las cuentas ordenadas por run cliente
+		request.setAttribute("cuentas",dao.obtenerTodoCuenta());  
+		
+		//redirecciona a vista Viewall
+		RequestDispatcher rd=request.getRequestDispatcher("cuentas/viewAll.jsp");  
+        rd.forward(request, response);  
 	}
 
 }

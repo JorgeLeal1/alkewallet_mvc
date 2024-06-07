@@ -27,26 +27,6 @@ public class Cuenta {
 		this.titular = titular;
 	}
 	
-	public String getRun() {
-		return titular.getRun();
-	}
-	
-	public String getNombre1() {
-		return titular.getNombre1();
-	}
-	
-	public String getNombre2() {
-		return titular.getNombre2();
-	}
-	
-	public String getAppaterno() {
-		return titular.getAppaterno();
-	}
-	
-	public String getApmaterno() {
-		return titular.getApmaterno();
-	}
-	
 	// Metodos GET, SET
 	// ---------------------------------------------
 	public int getId() {

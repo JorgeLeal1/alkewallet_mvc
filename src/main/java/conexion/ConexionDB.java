@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class ConexionDB {
 	
+	//variables para conectarse a mysql con base de datos wallet
 	private String url = "jdbc:mysql://localhost:3306/wallet";
 	private String usuario = "root";
 	private String pass = "";

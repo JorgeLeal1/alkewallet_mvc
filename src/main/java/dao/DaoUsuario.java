@@ -32,7 +32,7 @@ public class DaoUsuario implements CrudUsuario {
 
 	@Override
 	public void insertarUsuario(Usuario usuario) {
-
+		//Inserta usuario
 		// 	public Usuario(String nombre, String correo_electronico, String contrasena) {
 		String consulta_cliente = "INSERT INTO usuario (nombre, correo_electronico, contrasena, run_cliente) VALUES (?, ?, ?, ?)";
 		try {

@@ -89,7 +89,7 @@
 				  <tbody>
 						<%
 						for (int i = 0; i < lista.size(); i++) {
-							out.print("<tr>" + "" + "<td>" + lista.get(i).getId() + "</td>" + "" + "<td>" + lista.get(i).getRun() + "</td>" + ""
+							out.print("<tr>" + "" + "<td>" + lista.get(i).getId() + "</td>" + "" + "<td>" + lista.get(i).getTitular().getRun() + "</td>" + ""
 							+ "<td>" + lista.get(i).getNroCuenta() + "</td>" + "" + "<td>" + lista.get(i).getAlias() + "</td>" + ""
 							+ "<td>" + lista.get(i).getBanco() + "</td>" + "" + "<td>" + lista.get(i).getSaldo() + "</td></tr>");
 						}

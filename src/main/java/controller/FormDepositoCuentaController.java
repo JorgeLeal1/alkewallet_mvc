@@ -38,20 +38,23 @@ public class FormDepositoCuentaController extends HttpServlet {
 		response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
         
-        
+        //Obtiene variable de session del run del usuario logeado
         HttpSession misession = request.getSession();
         String run = (String) misession.getAttribute("run");
         
+        //Conexion a Base de datos wallet
         ConexionDB conexionBD = new ConexionDB();
     	Connection conexion = conexionBD.establecerConexion();
     	
+    	//crea objeto daro cuenta
+    	//Obtiene el saldo actual por el run del usuario logeado
 		DaoCuenta dao = new DaoCuenta(conexion);
 		request.setAttribute("saldo",dao.consultarSaldoPorRun(run));  
 		
-		System.out.println(dao.consultarSaldoPorRun(run));
+		//System.out.println(dao.consultarSaldoPorRun(run));
 
         //request.setAttribute("run",misession.getAttribute("run"));  
-		// se redirige a la pantalla listado
+		// se redirige a la pantalla realizar deposito
 		RequestDispatcher rd=request.getRequestDispatcher("cuentas/realizarDepositos.jsp");  
         rd.forward(request, response);  
 	}
@@ -65,20 +68,23 @@ public class FormDepositoCuentaController extends HttpServlet {
 		response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
         
-        
+        //Obtiene variable de session del run del usuario logeado
         HttpSession misession = request.getSession();
         String run = (String) misession.getAttribute("run");
         
+        //Conexion a Base de datos wallet
         ConexionDB conexionBD = new ConexionDB();
     	Connection conexion = conexionBD.establecerConexion();
     	
+    	//crea objeto daro cuenta
+    	//Obtiene el saldo actual por el run del usuario logeado
 		DaoCuenta dao = new DaoCuenta(conexion);
 		request.setAttribute("saldo",dao.consultarSaldoPorRun(run));  
 		
-		System.out.println(dao.consultarSaldoPorRun(run));
+		//System.out.println(dao.consultarSaldoPorRun(run));
 
         //request.setAttribute("run",misession.getAttribute("run"));  
-		// se redirige a la pantalla listado
+		// se redirige a la pantalla realizar deposito
 		RequestDispatcher rd=request.getRequestDispatcher("cuentas/realizarDepositos.jsp");  
         rd.forward(request, response);  
         

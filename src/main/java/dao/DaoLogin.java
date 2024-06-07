@@ -15,6 +15,7 @@ public class DaoLogin implements CrudLogin {
 		this.conexion = conexion;
 	}
 
+	//Verifica run y login ingresado por login
 	@Override
 	public boolean validarLogin(String run, String contrasena) {
         String consulta = "SELECT run_cliente, contrasena FROM usuario WHERE run_cliente = ? and contrasena = ?";
@@ -23,6 +24,7 @@ public class DaoLogin implements CrudLogin {
             ps.setString(1, run);
             ps.setString(2, contrasena);
             ResultSet rs = ps.executeQuery();
+            //si existe usuario retorna un true sino un false
             if (rs.next()) {
             	return true;
             	// return new Producto(rs.getInt("id"), rs.getString("name"), rs.getString("price"));

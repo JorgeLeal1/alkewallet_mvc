@@ -47,29 +47,34 @@ public class DepositoCuentaController extends HttpServlet {
 		response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
         
-        
+        //Obtiene variable de session del run del usuario logeado
         HttpSession misession = request.getSession();
         String run = (String) misession.getAttribute("run");
         
        // System.out.println(run);
-        
+        //Conexion a Base de datos wallet
         ConexionDB conexionBD = new ConexionDB();
     	Connection conexion = conexionBD.establecerConexion();
+    	
     	
     	//convierte los datos de request al formato de la tabla
     	Double saldo_actual = Double.parseDouble(request.getParameter("saldo_actual"));
     	Double saldo = Double.parseDouble(request.getParameter("saldo"));
         
+    	//crea objeto daro cuenta
 		DaoCuenta dao = new DaoCuenta(conexion);
 		
+		//Suma el saldo del formulario con el de la base de datos
 		double saldo_nuevo = saldo_actual + saldo;
 		
-        System.out.println("saldo_actual"+ saldo_actual);
-        System.out.println("saldo"+saldo);
-        System.out.println("saldo_nuevo"+saldo_nuevo);
+        //System.out.println("saldo_actual"+ saldo_actual);
+        //System.out.println("saldo"+saldo);
+        //System.out.println("saldo_nuevo"+saldo_nuevo);
 		
+		//Actualiza el saldo de la tabla cuenta
 		dao.actualizarSaldoCuenta(run, saldo_nuevo);
 		
+		//Redirige a viewAllCuentas
 		RequestDispatcher rd=request.getRequestDispatcher("/viewAllCuentas");  
         rd.forward(request, response);  
 	}

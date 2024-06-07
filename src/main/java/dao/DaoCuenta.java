@@ -23,8 +23,8 @@ public class DaoCuenta implements CrudCuenta {
 	@Override
 	public List<Cuenta> obtenerTodoCuenta() {
 
-		// falta hacer un join con cliente para obtener el nombre
-		String consultaSQL = "SELECT id, nroCuenta, alias, banco, saldo, run_cliente FROM cuenta";
+		// selecciona todos los registros de la bd ordenado por run cliente
+		String consultaSQL = "SELECT id, nroCuenta, alias, banco, saldo, run_cliente FROM cuenta order by run_cliente";
 		List<Cuenta> lista = new ArrayList<Cuenta>();
 		try {
 			Statement statement = conexion.createStatement();
@@ -39,8 +39,12 @@ public class DaoCuenta implements CrudCuenta {
 				String banco = resultSet.getString("banco");
 				Double saldo = resultSet.getDouble("saldo");
 
-				Cliente cliente = new Cliente(run_cliente, "", "", "", "");
-
+				//Crea objeto cliente
+				Cliente cliente = new Cliente();
+				//setea run cliente
+				cliente.setRun(run_cliente); 
+				
+				//crea objeto cuenta
 				Cuenta c = new Cuenta(nroCuenta, alias, banco, saldo, cliente);
 
 				// se muestran por consola el resultado
@@ -48,9 +52,8 @@ public class DaoCuenta implements CrudCuenta {
 				// nroCuenta);
 
 				// Se añaden en cada ciclo los objetos al listado
-
 				c.setId(id);
-				c.getRun();
+				c.getTitular().getRun();
 				c.setNroCuenta(nroCuenta);
 				c.setAlias(alias);
 				c.setBanco(banco);
@@ -68,6 +71,8 @@ public class DaoCuenta implements CrudCuenta {
 
 	@Override
 	public Double consultarSaldoPorRun(String run) {
+		
+		//obtiene los registros por run ingresado
         String consulta = "SELECT * FROM cuenta WHERE run_cliente = ?";
         try {
         	PreparedStatement ps = conexion.prepareStatement(consulta);
@@ -79,6 +84,7 @@ public class DaoCuenta implements CrudCuenta {
             	//return new Cuenta(rs.getInt("nroCuenta"), rs.getString("alias"), rs.getString("banco"),  rs.getDouble("saldo"), cliente);
             	//System.out.println( new Producto(rs.getInt("id"), rs.getString("name"), rs.getString("price")));
             	
+            	//retorna el saldo
             	return rs.getDouble("saldo");
             }
         } catch (SQLException e) {
@@ -93,6 +99,7 @@ public class DaoCuenta implements CrudCuenta {
 	public void insertarCuenta(Cuenta cuenta) {
 		// Cuenta cuenta = new Cuenta(nroCuenta, alias, banco, saldo, cliente);
 
+		//Inserta cuenta 
 		String consulta_cuenta = "INSERT INTO cuenta (nroCuenta, alias, banco, saldo, run_cliente) VALUES (?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement ps = conexion.prepareStatement(consulta_cuenta);
@@ -101,7 +108,7 @@ public class DaoCuenta implements CrudCuenta {
 			ps.setString(2, cuenta.getAlias());
 			ps.setString(3, cuenta.getBanco());
 			ps.setDouble(4, cuenta.getSaldo());
-			ps.setString(5, cuenta.getRun());
+			ps.setString(5, cuenta.getTitular().getRun());
 
 			ps.executeUpdate();
 
@@ -112,15 +119,17 @@ public class DaoCuenta implements CrudCuenta {
 
 		// public Cliente(String run, String nombre1, String nombre2, String appaterno,
 		// String apmaterno) {
+		
+		//Inserta cliente 
 		String consulta_cliente = "INSERT INTO cliente (run, nombre1, nombre2, appaterno, apmaterno) VALUES (?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement ps2 = conexion.prepareStatement(consulta_cliente);
 
-			ps2.setString(1, cuenta.getRun());
-			ps2.setString(2, cuenta.getNombre1());
-			ps2.setString(3, cuenta.getNombre2());
-			ps2.setString(4, cuenta.getAppaterno());
-			ps2.setString(5, cuenta.getApmaterno());
+			ps2.setString(1, cuenta.getTitular().getRun());
+			ps2.setString(2, cuenta.getTitular().getNombre1());
+			ps2.setString(3, cuenta.getTitular().getNombre2());
+			ps2.setString(4, cuenta.getTitular().getAppaterno());
+			ps2.setString(5, cuenta.getTitular().getApmaterno());
 
 			ps2.executeUpdate();
 
@@ -160,6 +169,8 @@ public class DaoCuenta implements CrudCuenta {
 
 	@Override
 	public void actualizarSaldoCuenta(String run, Double saldo) {
+		
+		//Actualiza saldo por run cliente
         String consulta = "UPDATE cuenta SET saldo = ? WHERE run_cliente = ?";
         try
         {
